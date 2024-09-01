@@ -1,0 +1,13 @@
+open_api_url : https://data.melbourne.vic.gov.au/api/records/1.0/search/
+
+open_data:
+  pedestrian-counting-system-sensor-locations: 
+    lookback : False
+    overwrite_sourced : False
+    db_load_type : replace
+
+  pedestrian-counting-system-monthly-counts-per-hour :
+    lookback : True
+    lookback_days : 20
+    overwrite_sourced : False
+    db_load_type : replace
