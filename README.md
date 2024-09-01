@@ -1,5 +1,5 @@
-# pedestrian-counting-system-melbourne-od
-
+# melbourne-open-data
+## pedestrian-counting-system
 The Pedestrian Counting System (counts per hour) has gone through some updates in the rescent years and the ddl of the incoming datasets have been changed along with the API. The API now only retains data from 24th April 2023, The older data has been archived and is located here :
 https://melbournetestbed.opendatasoft.com/api/datasets/1.0/pedestrian-counting-system-monthly-counts-per-hour/attachments/pedestrian_counting_system_monthly_counts_per_hour_may_2009_to_14_dec_2022_csv_zip/
 
