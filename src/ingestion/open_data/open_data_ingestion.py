@@ -33,7 +33,7 @@ def ingest(job_attributes, NAMESPACE, DATASET):
     primary_key = job_attributes['primary_key']
     load_type = job_attributes['load_type']
     date_column = job_attributes['date_column']
-    path = f'{utils.LANDING_DATA_DIRECTORY}\\{NAMESPACE}\\{DATASET}\\{utils.DATA_SOURCING_DIRECTORY}\\'
+    path = os.path.join(utils.LANDING_DATA_DIRECTORY,NAMESPACE,DATASET,utils.DATA_SOURCING_DIRECTORY)
     
     staging_table_name  = f'{table_name}_stg'
     conncetion = create_connestion()
