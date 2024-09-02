@@ -109,7 +109,7 @@ Workflow:
 you can connect to this DB instance using SQLite studio.
 After finishing ingestion it will create tables in the db.
 example:
-![Alt text](artefacts\ingestion_screenshot.png)
+![Alt text](artefacts/ingestion_screenshot.png)
 
 ## Gold Layer:
 This job is located here
