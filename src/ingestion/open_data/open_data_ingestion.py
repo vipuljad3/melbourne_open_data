@@ -81,19 +81,29 @@ def ingest(job_attributes, NAMESPACE, DATASET):
     path = os.path.join(utils.LANDING_DATA_DIRECTORY, NAMESPACE, DATASET, utils.DATA_SOURCING_DIRECTORY)
     
     staging_table_name = f'{table_name}_stg'
+    print('Connecting to DB')
     connection = create_connection()
     
+    print('Reading csv files')
     source_df = read_source_data(path)
+    print(f'converting date column to timestamp {date_column}')
     source_df[date_column] = pd.to_datetime(source_df[date_column])
 
     if load_type == 'upsert':
+        print('Performing upsert')
+        print('sorting values')
         df_sorted = source_df.sort_values(by=[primary_key, 'load_ts'])
+        print('dropping duplicates and keeping last ones')
         df_latest = df_sorted.drop_duplicates(subset=primary_key, keep='last').reset_index(drop=True)
-        print('Inserting data into staging table')
+        print(f'Inserting data into staging table {staging_table_name}')
         database_utils.load_data(connection, df_latest, NAMESPACE, staging_table_name, 'replace')
+        print(f'upserting data into Master table {table_name}')
         database_utils.upsert_database(connection, df_latest, staging_table_name, table_name, primary_key)
     else:
+        print('Performing append')
+        print(f'Inserting data into staging table {staging_table_name}')
         database_utils.load_data(connection, source_df, NAMESPACE, staging_table_name, 'replace')
+        print(f'Appending data into Master table {table_name}')
         database_utils.insert_database(connection, source_df, staging_table_name, table_name, primary_key=None)
         
     archive_ingested_data(path)
