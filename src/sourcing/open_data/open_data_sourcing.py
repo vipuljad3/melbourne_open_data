@@ -13,13 +13,14 @@ def open_api_handler(config, database):
         df = open_api_to_df(url, database, date)
     else:
         lookback_days= config[NAMESPACE][database]['lookback_days']
-        df = lookback_collect(url, database, lookback_days)
+        source_date_column = config[NAMESPACE][database]['source_date_column']
+        df = lookback_collect(url, database, lookback_days, source_date_column)
     field_list = list(df['fields'])
     df = pd.DataFrame(field_list)
     staging_path = utils.stage_data(NAMESPACE, database, df, 'csv', config[NAMESPACE][database]['overwrite_sourced'])
     return staging_path
 
-def lookback_collect(url, database, lookback_days):
+def lookback_collect(url, database, lookback_days, source_date_column):
     today = datetime.now()
     subset_date = pd.to_datetime(today) - pd.DateOffset(days=lookback_days)
     dates = pd.date_range(start=subset_date, end=today)
@@ -28,19 +29,18 @@ def lookback_collect(url, database, lookback_days):
     print("Looking for these dates: \n",date_list)
     df = pd.DataFrame()
     for date in date_list:
-        batch = open_api_to_df(url, database, date)
+        batch = open_api_to_df(url, database, date, source_date_column)
         print(len(batch))
         df = pd.concat([df, batch], ignore_index=True)
     return df
 
-def open_api_to_df(url, database, date):
+def open_api_to_df(url, database, date, source_date_column=None):
     if date != None:
         params = {
             "dataset": database,  
             "rows": 10000,
-            "start": 0, 
-            "q":f"record_timestamp = {date}",
-            "sort": ["record_timestamp"], 
+            "q":f"{source_date_column} = {date}",
+            "sort": [source_date_column], 
             "format": "json", 
             "timezone": "UTC"  
         }
@@ -52,7 +52,7 @@ def open_api_to_df(url, database, date):
         "format": "json", 
         "timezone": "UTC"  
     }       
-    print(params)
+    print(url,params)
     # Make the GET request
     response = requests.get(url, params=params)
     # Make sure the request was successful

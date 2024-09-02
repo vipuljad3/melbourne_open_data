@@ -9,5 +9,6 @@ open_data:
   pedestrian-counting-system-monthly-counts-per-hour :
     lookback : True
     lookback_days : 20
+    source_date_column : sensing_date 
     overwrite_sourced : False
     db_load_type : replace

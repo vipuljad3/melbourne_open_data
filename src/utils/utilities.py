@@ -7,6 +7,7 @@ DATA_ARCHIVAL_DIRECTORY = 'archive'
 LANDING_DATA_DIRECTORY = 'landing_zone'    ## BRONZE DATA
 PRODUCTION_ENV_NAME = 'PROD'
 TEST_ENV_NAME = 'TEST'
+TEST_DATA_DIRECTORY = os.path.join('tests','sample_data')
 
 
 
@@ -38,8 +39,11 @@ def remove_files_in_directory(directory_path):
             print(f"File '{filename}' removed successfully.")
 
 def stage_data(namespace, path, df, type, remove_flag):
-    ## Pandas does not support windows directory 
-    file_path = os.path.join(LANDING_DATA_DIRECTORY,namespace,path,DATA_SOURCING_DIRECTORY)
+    if os.environ['environment'] == TEST_ENV_NAME:
+        file_path = os.path.join(TEST_DATA_DIRECTORY,namespace,path)
+    ## Pandas does not support windows directory
+    else: 
+        file_path = os.path.join(LANDING_DATA_DIRECTORY,namespace,path,DATA_SOURCING_DIRECTORY)
     check_directory(file_path)
     if remove_flag == True:
         remove_files_in_directory(file_path)
