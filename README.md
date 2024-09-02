@@ -164,6 +164,11 @@ pip install -r requirements.txt
 python3 pipeline.py
 ```
 
+### ASSUMPTIONS.
+- As the tables are dynamically created not through DDL, if the source shcema changes, The pipeline would fail.
+- The append method is not ideal for mainstream pipeline. No duplicate checks are performed while performing an append. 
+- We are currently using Version - 1 of the API, if in case the API version is deprecated the sourcing job will fail. 
+
 
 
 
