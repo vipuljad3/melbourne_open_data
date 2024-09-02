@@ -112,6 +112,13 @@ After finishing ingestion it will create tables in the db.
 example:
 ![Alt text](artefacts/ingestion_screenshot.png)
 
+A DDL screenshot of the data:
+sensor_location:
+![sensor_location](artefacts/sensor_locations_ddl.png):
+
+counts_per_hour_ddl.png
+![counts_per_hour](artefacts/counts_per_hour_ddl.png):
+
 ## Gold Layer:
 This job is located here
 ```
@@ -144,7 +151,10 @@ open_data:
 ```
 table_name: The table name of the gold layer table.
 sql: The query used to generate this table.
+![alt text](artefacts/modelled_ddl.png)
 
+The query looks like:
+![alt text](artefacts/output.png)
 **NOTE** SQLite does not support schemas like redshift therefore I have created a seperate db instance for modelling db. similar to ingestion db called **modelled_PROD.db**
 
 If in case we are not able to connect to the DB, The code will write an csv file mimicing the output. **{NAMESPACE}_{ouptut_table_name}_ref.csv**
