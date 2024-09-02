@@ -161,7 +161,6 @@ def load_data(connection, df, namespace, table_name, load_condition):
     Notes:
         This function loads data into the database based on the specified condition.
     """
-    print(table_name)
     df.to_sql(table_name, connection, if_exists=load_condition, index=False)
 
 
