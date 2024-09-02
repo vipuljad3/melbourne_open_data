@@ -32,6 +32,7 @@ We are using **Medallion** architecture for this demonstration which includes fo
 >- **Silver**: Ingestion Layer This Layer ingests the sourced data into a database (SQLlite) and does required data filtering and cleaning. 
 >- **Gold**: Modelled layer This is the basic transformation job which is used to generate insights.
 
+![alt text](artefacts/image.png)
 ## Data Sourcing Or Bronze Layer:
 This job is located here
 ```
