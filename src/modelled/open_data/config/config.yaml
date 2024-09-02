@@ -1,14 +1,15 @@
 open_data:
-  top_10_locations_each_month_in_2023:
-    table_name: top_10_locations_each_month_in_2023
+  top_sensor_locations_by_day:
+    table_name: top_sensor_locations_by_day
     sql : with all_months as (select c.location_id
                   , l.sensor_description
                   , strftime('%m', sensing_date) AS month
+                  , strftime('%d', sensing_date) AS day
                   ,sum (c.direction_1 + c.direction_2) as total_of_count from monthly_counts_per_hour c
           left join sensor_locations l
           on c.location_id = l.location_id
-          where strftime('%Y', sensing_date)== '2023'
-          group by 1,2,3
-          order by 3,4 desc)
-          select month,location_id, sensor_description, max(total_of_count) as max_count from all_months 
-          group by month;
+          group by 1,2,3,4
+          order by 3,4,5 desc)
+          select month,day, location_id, sensor_description, max(total_of_count) as max_count from all_months 
+          group by month, day
+          order by max_count desc;

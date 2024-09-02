@@ -1,6 +1,5 @@
 import src.utils.utilities as utils 
 import src.utils.databases as database_utils
-import pandas as pd
 
 
 
@@ -14,5 +13,6 @@ def run_transform(NAMESPACE,attributes):
     df = database_utils.get_query_df(sql,source_connection)
     database_utils.load_data(destination_connection, df,NAMESPACE, staging_table_name, 'replace')
     database_utils.replace_database(destination_connection, df, staging_table_name, ouptut_table_name, primary_key = None)
+    df.to_csv(f"{NAMESPACE}_{ouptut_table_name}_ref.csv", index= False)
     
 

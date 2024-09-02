@@ -8,5 +8,5 @@ open_data:
   pedestrian-counting-system-monthly-counts-per-hour :
     table_name : monthly_counts_per_hour
     load_type : append
-    primary_key : installation_date
+    primary_key : id
     date_column : sensing_date
